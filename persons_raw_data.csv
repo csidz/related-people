@@ -1,0 +1,36 @@
+first_name,last_name,company_name,address,city,province,postal,phone1,phone2,email,web
+Tom,William,"Riebesell, H F Jr",2335 Canton Hwy #6,Windsor,ON,N8N 3N2,519-569-8399,519-978-6179,tom.william@rautenstrauch.com,http://www.riebesellhfjr.com
+Xavier,William-Scott,Deloitte & Touche,6 Arch St #9757,Alcida,NB,E8J 2C4,506-363-1526,506-932-4472,xws@gmail.com,http://www.deloittetouche.com
+Antonio,William,Deloitte & Touche,6 Arch St #9757,Alcida,NB,E8J 2C4,506-363-1526,506-932-4472,xws@gmail.com,http://www.deloittetouche.com
+Jake,Scott-William,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,jake_scottwilliam@aol.com,http://www.oklahomaneoninc.com
+Emily,Scott-Jones,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,jake_scottwilliam@aol.com,http://www.oklahomaneoninc.com
+Lilly,Scott-Jones,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,jake_scottwilliam@aol.com,http://www.oklahomaneoninc.com
+Mary,Williams,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,jake_scottwilliam@aol.com,http://www.oklahomaneoninc.com
+XavierI,William Scott,Deloitte & Touche,6 Arch St #9757,Alcida,NB,E8J 2C4,506-363-1526,506-932-4472,xws@gmail.com,http://www.deloittetouche.com
+Xavier,Müller,Deloitte & Touche,6 Arch St #9757,Alcida,NB,E8J 2C4,506-363-1526,506-932-4472,xws@gmail.com,http://www.deloittetouche.com
+Xavier,Harper7,Deloitte & Touche,6 Arch St #9757,Alcida,NB,E8J 2C4,506-363-1526,506-932-4472,xws@gmail.com,http://www.deloittetouche.com
+Xavier,--,Deloitte & Touche,6 Arch St #9757,Alcida,NB,E8J 2C4,506-363-1526,506-932-4472,xws@gmail.com,http://www.deloittetouche.com
+Xavier,"  ",Deloitte & Touche,6 Arch St #9757,Alcida,NB,E8J 2C4,506-363-1526,506-932-4472,xws@gmail.com,http://www.deloittetouche.com
+,Scottt-Williamm,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,jake_scottwilliam@aol.com,http://www.oklahomaneoninc.com
+John,,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,jake_scottwilliam@aol.com,http://www.oklahomaneoninc.com
+John,Girisham,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,,http://www.oklahomaneoninc.com
+JakeI,valid email I,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,simple@example.com,http://www.oklahomaneoninc.com
+JakeII,valid email II,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,very.common@example.com,http://www.oklahomaneoninc.com
+JakeIII,valid email III,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,disposable.style.email.with+symbol@example.com,http://www.oklahomaneoninc.com
+JakeIV,valid email IV,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,other.email-with-hyphen@example.com,http://www.oklahomaneoninc.com
+JakeV,valid email V,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,fully-qualified-domain@example.com,http://www.oklahomaneoninc.com
+JakeVI,valid email VI,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,user.name+tag+sorting@example.com,http://www.oklahomaneoninc.com
+JakeVII,valid email VII,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,x@example.com,http://www.oklahomaneoninc.com
+JakeVIII,valid email VIII,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,example-indeed@strange-example.com,http://www.oklahomaneoninc.com
+JakeIX,valid email IX,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,admin@mailserver1,http://www.oklahomaneoninc.com
+JakeX,valid email X,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,example@s.example,http://www.oklahomaneoninc.com
+Jake,valid email XI,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682," "@example.org,http://www.oklahomaneoninc.com
+Jake,valid email XII,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,"john..doe"@example.org,http://www.oklahomaneoninc.com
+Jake,invalid email I,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,Abc.example.com,http://www.oklahomaneoninc.com
+Jake,invalid email II,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,A@b@c@example.com,http://www.oklahomaneoninc.com
+Jake,invalid email III,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,a"b(c)d,e:f;g<h>i[j\k]l@example.com,http://www.oklahomaneoninc.com
+Jake,invalid email IV,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,just"not"right@example.com,http://www.oklahomaneoninc.com
+Jake,invalid email V,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,this is"not\allowed@example.com,http://www.oklahomaneoninc.com
+Jake,invalid email VI,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,this\ still\"not\\allowed@example.com,http://www.oklahomaneoninc.com
+Jake,invalid email VII,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,1234567890123456789012345678901234567890123456789012345678901234+x@example.com,http://www.oklahomaneoninc.com
+Jake,morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256morethan256,Oklahoma Neon Inc,9547 Belmont Rd #21,Belleville,ON,K8P 1B3,613-903-7043,613-638-6682,jake_scottwilliam@aol.com,http://www.oklahomaneoninc.com
