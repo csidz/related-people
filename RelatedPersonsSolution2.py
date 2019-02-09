@@ -1,8 +1,8 @@
 """
 The following script reads the persons details from './persons_raw_data.csv' file
-and creates 'related_persons_info.txt' file.
+and creates 'related_persons_info_solution1.txt' file.
 
-The 'related_persons_info.txt' contains information of related persons based on
+The 'related_persons_info_solution1.txt' contains information of related persons based on
 defined requirements
 """
 
@@ -208,7 +208,7 @@ class FilterFields:
     # All filter actions methods calling
     def get_filtered_first_lastname_details(self) -> list:
         """
-        This functions calls all the user validation functions above in an order and return persons details with
+        This function calls all the user validation functions above in an order and return persons details with
         last_name and first_name
         :return:list of items
         Each item is a person details which have gone through all user validations as per requirements
@@ -227,7 +227,7 @@ class FilterFields:
         return filtered_first_lastname_details
 
 
-# Applies Search Criteria and writes related people to related_persons_info.txt file
+# Applies Search Criteria and writes related people to related_persons_info_solution1.txt file
 class RelatedPersons:
 
 
@@ -238,108 +238,69 @@ class RelatedPersons:
 
     log = cl(log_level=logging.INFO)
 
-    def get_lastname_that_is_same_as_lastname_of_another(self, lastname: str, another_lastname: str) -> bool:
+    def split_last_name(self, last_name: str, split_char: str) -> list:
         """
-        Compares two strings whether they are exactly same
-        :param lastname: string
-        :param another_lastname: string
-        :return: boolean
-        True if strings are exactly same
-        """
-        if lastname == another_lastname:
-            self.log.info(msg=f'{lastname} and {another_lastname} are exactly similar')
-            return True
-        else:
-            self.log.info(msg=f'{lastname} and {another_lastname} are NOT exactly similar')
-            return False
-
-    def get_a_part_of_hyphenated_name_that_appears_as_hyphenated_part_of_another(self, lastname: str, another_lastname: str) -> bool:
-        """
-        Finds whether a part of hyphenated string matches with any part of another hyphenated string
-        :param lastname: string
-        :param another_lastname: string
-        :return: boolean
-        True if matches else False
-        """
-        if ("-" in lastname) and ("-" in another_lastname):
-            hyphenated_lastname = lastname.split("-")
-            hyphenated_other_lastname = another_lastname.split("-")
-            matches = [x for x in hyphenated_lastname if x in hyphenated_other_lastname]
-            self.log.info(msg=f'Part of the {lastname} matches with part of {another_lastname} ')
-            return matches
-        else:
-            self.log.info(msg=f'Part of the {lastname} does not match with part of {another_lastname} ')
-            return False
-
-    def get_lastname_of_one_that_appears_as_part_of_hyphenated_lastname_of_another(self, lastname: str, another_lastname:str) -> bool:
-        """
-        Finds whether a string is exactly same as any part of hyphenated string
-        :param lastname: string
-        :param another_lastname: string
-        :return: boolean
-        True if same else False
-        """
-        if "-" in another_lastname:
-            hyphenated_other_lastname = another_lastname.split("-")
-            if lastname in hyphenated_other_lastname:
-                self.log.info(msg=f'{lastname} matches with part of {another_lastname}')
-                return True
-        elif "-" in lastname:
-            hyphenated_lastname = lastname.split("-")
-            if another_lastname in hyphenated_lastname:
-                self.log.info(msg=f'Part of {another_lastname} matches with {lastname}')
-                return True
-        else:
-            return False
-
-    def get_related_names_data(self) -> list:
-        """
-        Call the search pattern functions above and returns a list of related persons
+        Gets a string as a 1st param, check if the string contains a split char.
+        If the string contains a split char, it will be split based on split char otherwise not
+        In either way it return string converted to list
+        :param last_name: a string normally, ex: "William-Scott" or "William"
+        :param split_char: any char, in our project it hyphen
         :return: list
-        each list contains a dictionary.
-        In each dictionary:
-            key = person first_name, last_name
-            value: list of persons with first_name, last_name whose last_name matches with last_name in the key person
-        as per requirements
         """
-        data = FilterFields().get_filtered_first_lastname_details()
-        related_names = []
-        for i in range(0, len(data)):
-            row = {}
-            matching_lastnames = []
-            for j in range(0, len(data)):
-                if i != j:
-                    record = data[i]
-                    another_record = data[j]
-                    if RelatedPersons().get_lastname_that_is_same_as_lastname_of_another(lastname=record[1],
-                                                                                         another_lastname=another_record[1]):
-                        matching_lastnames.append(another_record[0] + " " + another_record[1])
-                        row[record[0] + " " + record[1]] = matching_lastnames
-                    elif RelatedPersons().get_a_part_of_hyphenated_name_that_appears_as_hyphenated_part_of_another(lastname=record[1],
-                                                                                                                 another_lastname=another_record[1]):
-                        matching_lastnames.append(another_record[0] + " " + another_record[1])
-                        row[record[0] + " " + record[1]] = matching_lastnames
-                    elif RelatedPersons().get_lastname_of_one_that_appears_as_part_of_hyphenated_lastname_of_another(lastname=record[1],
-                                                                                                                   another_lastname=another_record[1]):
-                        matching_lastnames.append(another_record[0] + " " + another_record[1])
-                        row[record[0] + " " + record[1]] = matching_lastnames
-            if row:
-                related_names.append(row)
-        self.log.info(f'{len(related_names)} are related')
-        return related_names
+        if '-' in last_name:
+            last_name_ = last_name.split(split_char)
+            self.log.info(msg=f'"{last_name}" last Name contains {split_char} and splitted to {last_name_}')
+            return last_name_
+        else:
+            self.log.info(msg=f'"{last_name}" last name does not contain {split_char}')
+            last_name = [last_name]
+            return last_name
+
+    def filter_keys_with_empty_values(self, names: dict) -> dict:
+        filtered_names = {k: v for k, v in names.items() if v}
+        self.log.info(msg=f'{len(filtered_names)} keys filtered out of {len(names)} keys having empty values')
+        return filtered_names
+
+    def get_related_names_data(self) -> dict:
+        """
+        Takes one name at a time and compares its last name with the last names next in the order in the list
+        The improvement over the solution1 is it compares two names in a list only once
+        :return: dict with the values having last name matching with the last name in the respective key
+        """
+        items = FilterFields().get_filtered_first_lastname_details()
+        related_names_dict = {}
+        for i in range(0, len(items)):
+            k = ' '.join([items[i][0], items[i][1]])
+            last_name = []
+            if k not in related_names_dict:
+                related_names_dict[k] = []
+            last_name.extend(self.split_last_name(last_name=items[i][1], split_char='-'))
+
+            for j in range(i + 1, len(items)):
+                another_last_name = self.split_last_name(last_name=items[j][1], split_char='-')
+                match = [x for x in last_name if x in another_last_name]
+                j = ' '.join([items[j][0], items[j][1]])
+                if match:
+                    related_names_dict[k].append(j)
+                    if j not in related_names_dict:
+                        related_names_dict[j] = []
+                    related_names_dict[j].append(k)
+        self.log.info("Completed comparing last names but result dictionary may contain keys with empty values")
+        related_names_final_dict = self.filter_keys_with_empty_values(names=related_names_dict)
+        self.log.info(f'Found {len(related_names_final_dict)} names in total having last name similar to others')
+        return related_names_final_dict
 
     # Generator
     @staticmethod
-    def build_format_for_related_names(related_names_data: list) -> str:
+    def build_format_for_related_names(related_names_data: dict) -> str:
         """
         Generator function which returns string in the expected output
         :param related_names_data: list (received from get_related_names_data)
         :return: string (formatted)
         """
-        for record in related_names_data:
-            for key, value in record.items():
-                matched_names = ', '.join([str(x) for x in value])
-                yield f'{key}: {matched_names} \n'
+        for key, value in related_names_data.items():
+            matched_names = ', '.join([str(x) for x in value])
+            yield f'{key}: {matched_names} \n'
 
     def write_related_names_data_to_text_file(self):
         """
@@ -349,7 +310,7 @@ class RelatedPersons:
         related_names_data = RelatedPersons().get_related_names_data()
         matches = RelatedPersons.build_format_for_related_names(related_names_data)
         try:
-            with open('related_persons_info.txt', 'w') as output_file:
+            with open('related_persons_info_solution2.txt', 'w') as output_file:
                 for match in matches:
                     try:
                         output_file.write(match)
