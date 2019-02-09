@@ -227,7 +227,7 @@ class FilterFields:
         return filtered_first_lastname_details
 
 
-# Applies Search Criteria and writes related people to related_persons_info_solution1.txt file
+# Applies the Search criteria for finding related persons and returns related persons data
 class RelatedPersons:
 
 
@@ -258,7 +258,7 @@ class RelatedPersons:
 
     def filter_keys_with_empty_values(self, names: dict) -> dict:
         filtered_names = {k: v for k, v in names.items() if v}
-        self.log.info(msg=f'{len(filtered_names)} keys filtered out of {len(names)} keys having empty values')
+        self.log.info(msg=f'{len(filtered_names)} keys filtered out of {len(names)} keys have values')
         return filtered_names
 
     def get_related_names_data(self) -> dict:
@@ -290,6 +290,16 @@ class RelatedPersons:
         self.log.info(f'Found {len(related_names_final_dict)} names in total having last name similar to others')
         return related_names_final_dict
 
+
+# Formats and writes related people to related_persons_info_solution2.txt file
+class FormatAndWriteRelatedNamesToAFile:
+    """
+        FormatAndWriteRelatedNamesToAFile class gets the Matched names data,
+        formats it as mentioned in requirements document and writes into a txt file"
+        """
+
+    log = cl(log_level=logging.INFO)
+
     # Generator
     @staticmethod
     def build_format_for_related_names(related_names_data: dict) -> str:
@@ -308,7 +318,7 @@ class RelatedPersons:
         :return: text file
         """
         related_names_data = RelatedPersons().get_related_names_data()
-        matches = RelatedPersons.build_format_for_related_names(related_names_data)
+        matches = FormatAndWriteRelatedNamesToAFile.build_format_for_related_names(related_names_data)
         try:
             with open('related_persons_info_solution2.txt', 'w') as output_file:
                 for match in matches:
@@ -326,4 +336,4 @@ if __name__ == "__main__":
     """
     Calls the function that initiates the operation of finding related persons
     """
-    RelatedPersons().write_related_names_data_to_text_file()
+    FormatAndWriteRelatedNamesToAFile().write_related_names_data_to_text_file()
