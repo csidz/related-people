@@ -14,7 +14,6 @@ import logging
 
 
 # Reads data from a persons_raw_data.csv file
-# raises error when there is a blank row
 class GetMax1000RecordsFromCSVFile:
     """
     Class to read Persons raw data from a csv file and return the output as a list
