@@ -23,15 +23,18 @@ class GetMax1000RecordsFromCSVFile:
 
     # Decorator
     def read_data_from_csv(self):
-        with open("./persons_raw_data.csv") as test_data:
-            csv_reader = csv.reader(test_data)
-            next(csv_reader)  # Filters header line
-            for line in csv_reader:
-                if line:
-                    yield line
-                else:
-                    break
-        test_data.close()
+        try:
+            with open("./persons_raw_data.csv") as test_data:
+                csv_reader = csv.reader(test_data)
+                next(csv_reader)  # Filters header line
+                for line in csv_reader:
+                    if line:
+                        yield line
+                    else:
+                        break
+            test_data.close()
+        except IOError:
+            self.log.error(msg='Unable to access input data file')
 
     def get_first_1000_records_max(self, count: int) -> list:
         """
