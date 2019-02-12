@@ -15,14 +15,14 @@ import logging
 
 # Reads data from a persons_raw_data.csv file
 # raises error when there is a blank row
-class ReadInputData:
+class GetMax1000RecordsFromCSVFile:
     """
     Class to read Persons raw data from a csv file and return the output as a list
     """
 
     log = cl(log_level=logging.INFO)
 
-    def read_data(self) -> list:
+    def read_data_(self) -> list:
         """
         Reads data from csv file. Uses 'csv' library
 
@@ -42,6 +42,34 @@ class ReadInputData:
         except FileNotFoundError:
             self.log.error(msg="The input csv file does not exist")
 
+    # Decorator
+    def read_data_from_csv(self):
+        with open("./persons_raw_data.csv") as test_data:
+            csv_reader = csv.reader(test_data)
+            next(csv_reader)  # Filters header line
+            for line in csv_reader:
+                if line:
+                    yield line
+                else:
+                    break
+        test_data.close()
+
+    def get_first_1000_records_max(self, count: int) -> list:
+        """
+        Gets the first 1000 records from input file
+
+        :param count: int  number of person records
+        :return: list of maximum 1000 items. Each item is a list i.e. each person details
+        """
+        person_details = []
+        counter = 0
+        record = self.read_data_from_csv()
+        for row in record:
+            if counter < count:
+                person_details.append(row)
+                counter += 1
+        return person_details
+
 
 # Applies all Validation Rules on fields and returns filtered data
 class FilterFields:
@@ -59,6 +87,7 @@ class FilterFields:
         :param data: list
         :return: list of maximum 1000 items. Each item is a list i.e. each person details
         """
+
         len_of_records = len(data)
         if len_of_records <= 1000:
             data = data[1:len_of_records]
@@ -214,8 +243,7 @@ class FilterFields:
         Each item is a person details which have gone through all user validations as per requirements
         Each item is a list consisting of first_name, last_name only
         """
-        raw_input_data = ReadInputData().read_data()
-        first_1000_records = FilterFields().get_first_1000_records_max(data=raw_input_data)
+        first_1000_records = GetMax1000RecordsFromCSVFile().get_first_1000_records_max(count=1000)
         data_with_fields_less_than_257chars = FilterFields().get_data_with_fields_length_less_than_257(data=first_1000_records)
         data_with_only_first_lastname_email = FilterFields().get_data_with_only_first_lastname_email(data=data_with_fields_less_than_257chars)
         filter_blank_names_emails_records = FilterFields().get_first_last_name_email_notblank_combination(data=data_with_only_first_lastname_email)
@@ -249,10 +277,10 @@ class RelatedPersons:
         """
         if '-' in last_name:
             last_name_ = last_name.split(split_char)
-            self.log.info(msg=f'"{last_name}" last Name contains {split_char} and splitted to {last_name_}')
+            # self.log.info(msg=f'"{last_name}" last Name contains {split_char} and splitted to {last_name_}') # enable if needed
             return last_name_
         else:
-            self.log.info(msg=f'"{last_name}" last name does not contain {split_char}')
+            # self.log.info(msg=f'"{last_name}" last name does not contain {split_char}') # enable if needed
             last_name = [last_name]
             return last_name
 
