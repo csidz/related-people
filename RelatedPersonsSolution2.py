@@ -2,7 +2,7 @@
 The following script reads the persons details from './persons_raw_data.csv' file
 and creates 'related_persons_info_solution1.txt' file.
 
-The 'related_persons_info_solution1.txt' contains information of related persons based on
+The 'related_persons_info_solution2.txt' contains information of related persons based on
 defined requirements
 """
 
@@ -21,26 +21,6 @@ class GetMax1000RecordsFromCSVFile:
     """
 
     log = cl(log_level=logging.INFO)
-
-    def read_data_(self) -> list:
-        """
-        Reads data from csv file. Uses 'csv' library
-
-        :return: list of items. Each item is a list consisting of persons raw data
-        :exception raises exception if there is any blank line in the source csv file
-        """
-        person_details = []
-        try:
-            with open("./persons_raw_data.csv") as test_data:
-                csv_reader = csv.reader(test_data)
-                for row in csv_reader:
-                    person_details.extend([row])
-            test_data.close()
-            self.log.info(msg="Raw data has been successfully read from csv file")
-            return person_details
-
-        except FileNotFoundError:
-            self.log.error(msg="The input csv file does not exist")
 
     # Decorator
     def read_data_from_csv(self):
@@ -68,6 +48,7 @@ class GetMax1000RecordsFromCSVFile:
             if counter < count:
                 person_details.append(row)
                 counter += 1
+        self.log.info(msg=f'Collected {len(person_details)} records')
         return person_details
 
 
@@ -79,23 +60,6 @@ class FilterFields:
     """
 
     log = cl(log_level=logging.INFO)
-
-    def get_first_1000_records_max(self, data) -> list:
-        """
-        Gets the first 1000 items in a list
-
-        :param data: list
-        :return: list of maximum 1000 items. Each item is a list i.e. each person details
-        """
-
-        len_of_records = len(data)
-        if len_of_records <= 1000:
-            data = data[1:len_of_records]
-            self.log.info(msg=f'Collected all {len_of_records-1} records')
-        else:
-            data = data[1:1000]
-            self.log.info(msg="Collected first 1000 records")
-        return data
 
     def get_data_with_fields_length_less_than_257(self, data: list) -> list:
         """
@@ -357,7 +321,7 @@ class FormatAndWriteRelatedNamesToAFile:
             output_file.close()
         except FileNotFoundError:
             self.log.error(msg="The output txt file does not exist")
-        self.log.info(msg="Check out the output for Related Persons")
+        self.log.info(msg="Check out the output file for Related Persons details")
 
 
 if __name__ == "__main__":
