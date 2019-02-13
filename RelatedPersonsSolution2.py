@@ -22,7 +22,13 @@ class GetMax1000RecordsFromCSVFile:
     log = cl(log_level=logging.INFO)
 
     # Decorator
-    def read_data_from_csv(self):
+    def read_data_from_csv(self) -> list:
+        """
+        Decorator function to read lines in a given csv file
+        Stops reading if there is blank or EOF
+
+        :return: list of strings
+        """
         try:
             with open("./persons_raw_data.csv") as test_data:
                 csv_reader = csv.reader(test_data)
@@ -38,10 +44,10 @@ class GetMax1000RecordsFromCSVFile:
 
     def get_first_1000_records_max(self, count: int) -> list:
         """
-        Gets the first 1000 records from input file
+        Gets the first 'count' records or all records if less than 'count' from input file
 
         :param count: int  number of person records
-        :return: list of maximum 1000 items. Each item is a list i.e. each person details
+        :return: list of maximum 'count' items. Each item is a list i.e. each person details
         """
         person_details = []
         counter = 0
@@ -94,9 +100,9 @@ class FilterFields:
         data_with_required_fields_only = []
         for row in data:
             temp = []
-            temp.extend([row[0]])
-            temp.extend([row[1]])
-            temp.extend([row[9]])
+            temp.append(row[0])
+            temp.append(row[1])
+            temp.append(row[9])
             data_with_required_fields_only.append(temp)
         self.log.info(msg='Filtered all fields keeping first_name, last_name and email only')
         return data_with_required_fields_only
