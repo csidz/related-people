@@ -107,72 +107,6 @@ class FilterFields:
         self.log.info(msg='Filtered all fields keeping first_name, last_name and email only')
         return data_with_required_fields_only
 
-    def get_first_last_name_email_notblank_combination(self, data: list) -> list:
-        """
-        Filters the person record if it contain blank first_name or last_name or email
-
-        :param data: list (received from function 'get_data_with_only_first_lastname_email')
-        :return: list of items.
-        Each item is a person details with first_name, last_name and email which are not blank
-        """
-        data_with_nonblank_fields = []
-        for row in data:
-            is_field_blank = True
-            for field in row:
-                if not field:
-                    is_field_blank = False
-                    break
-            if is_field_blank is True:
-                data_with_nonblank_fields.append(row)
-        self.log.info(msg=f'{len(data_with_nonblank_fields)} out of {len(data)} records do not have blank emails')
-        return data_with_nonblank_fields
-
-    def get_names_containing_atleast_one_alpha(self, data: list) -> list:
-        """
-        Filters the person record if it does not contain atleast one alpha character in first_name or last_name
-
-        :param data: list (received from function 'get_first_last_name_email_notblank_combination')
-        :return: list of items
-        Each item is a person details with first_name, last_name, email where first_name and last_name
-        contain atleast one alpha character
-        Example: it filters any first_name or last_name with only '--' or '  '
-        """
-        data_with_atleast_one_alpha = []
-        for row in data:
-            field_with_atleast_one_alpha = True
-            for field in row[0:2]:
-                if not re.search('[a-zA-Z]', field):
-                    field_with_atleast_one_alpha = False
-                    break
-            if field_with_atleast_one_alpha is True:
-                data_with_atleast_one_alpha.append(row)
-        self.log.info(msg=f"""{len(data_with_atleast_one_alpha)} out of {len(
-            data)} records have atleast one alpha in their first_name and last_name""")
-        return data_with_atleast_one_alpha
-
-    def get_names_containing_alpha_or_space_hyphen_only(self, data: list) -> list:
-        """
-        Filters the person record if it contains any character other than allowed alpha, space, hyphen
-        in first_name or last_name
-
-        :param data: list (received from function 'get_names_containing_atleast_one_alpha')
-        :return: list of items
-        Each item is a person details with first_name, last_name, email where first_name and last_name
-        does not contain any character other than allowed
-        """
-        data_with_alpha_or_space_hypen = []
-        for row in data:
-            field_with_alpha_space_hyphen = True
-            for field in row[0:2]:
-                if not re.fullmatch('^[a-zA-Z- ]*$',  field):
-                    field_with_alpha_space_hyphen = False
-                    break
-            if field_with_alpha_space_hyphen is True:
-                data_with_alpha_or_space_hypen.append(row)
-        self.log.info(f"""{len(data_with_alpha_or_space_hypen)} out of {len(
-            data)} records do not chars other than alpha or space or hyphen""")
-        return data_with_alpha_or_space_hypen
-
     def get_fields_with_valid_email_format(self, data: list) -> list:
         """
         Filters the person records consisting of invalid formatted emails
@@ -195,6 +129,26 @@ class FilterFields:
         self.log.info(f'{len(data_with_valid_email_format)} out of {len(data)} records have valid emails')
         return data_with_valid_email_format
 
+    def get_first_last_name_email_notblank_combination(self, data: list) -> list:
+        """
+        Filters the person record if it contain blank first_name or last_name or email
+
+        :param data: list (received from function 'get_data_with_only_first_lastname_email')
+        :return: list of items.
+        Each item is a person details with first_name, last_name and email which are not blank
+        """
+        data_with_nonblank_fields = []
+        for row in data:
+            is_field_blank = True
+            for field in row:
+                if not field:
+                    is_field_blank = False
+                    break
+            if is_field_blank is True:
+                data_with_nonblank_fields.append(row)
+        self.log.info(msg=f'{len(data_with_nonblank_fields)} out of {len(data)} records do not have blank emails')
+        return data_with_nonblank_fields
+
     # Helper
     def get_first_and_lastname_details_and_remove_email(self, data: list) -> list:
         """
@@ -209,6 +163,52 @@ class FilterFields:
         self.log.info(msg='Filtered email keeping the first_name and last_name only')
         return data_first_lastname_filtered
 
+    def get_names_containing_atleast_one_alpha(self, data: list) -> list:
+        """
+        Filters the person record if it does not contain atleast one alpha character in first_name or last_name
+
+        :param data: list (received from function 'get_first_last_name_email_notblank_combination')
+        :return: list of items
+        Each item is a person details with first_name, last_name, email where first_name and last_name
+        contain atleast one alpha character
+        Example: it filters any first_name or last_name with only '--' or '  '
+        """
+        data_with_atleast_one_alpha = []
+        for row in data:
+            field_with_atleast_one_alpha = True
+            for field in row:
+                if not re.search('[a-zA-Z]', field):
+                    field_with_atleast_one_alpha = False
+                    break
+            if field_with_atleast_one_alpha is True:
+                data_with_atleast_one_alpha.append(row)
+        self.log.info(msg=f"""{len(data_with_atleast_one_alpha)} out of {len(
+            data)} records have atleast one alpha in their first_name and last_name""")
+        return data_with_atleast_one_alpha
+
+    def get_names_containing_alpha_or_space_hyphen_only(self, data: list) -> list:
+        """
+        Filters the person record if it contains any character other than allowed alpha, space, hyphen
+        in first_name or last_name
+
+        :param data: list (received from function 'get_names_containing_atleast_one_alpha')
+        :return: list of items
+        Each item is a person details with first_name, last_name, email where first_name and last_name
+        does not contain any character other than allowed
+        """
+        data_with_alpha_or_space_hypen = []
+        for row in data:
+            field_with_alpha_space_hyphen = True
+            for field in row:
+                if not re.fullmatch('^[a-zA-Z- ]*$',  field):
+                    field_with_alpha_space_hyphen = False
+                    break
+            if field_with_alpha_space_hyphen is True:
+                data_with_alpha_or_space_hypen.append(row)
+        self.log.info(f"""{len(data_with_alpha_or_space_hypen)} out of {len(
+            data)} records do not chars other than alpha or space or hyphen""")
+        return data_with_alpha_or_space_hypen
+
     # All filter actions methods calling
     def get_filtered_first_lastname_details(self) -> list:
         """
@@ -220,14 +220,20 @@ class FilterFields:
         """
         first_1000_records = GetMax1000RecordsFromCSVFile().get_first_1000_records_max(count=1000)
         data_with_fields_less_than_257chars = self.get_data_with_fields_length_less_than_257(data=first_1000_records)
-        data_with_only_first_lastname_email = self.get_data_with_only_first_lastname_email(data=data_with_fields_less_than_257chars)
-        filter_blank_names_emails_records = self.get_first_last_name_email_notblank_combination(data=data_with_only_first_lastname_email)
-        data_with_atleast_one_alphachar = self.get_names_containing_atleast_one_alpha(data=filter_blank_names_emails_records)
-        data_with_names_containing_alpha_or_space_hyphen_only = self.get_names_containing_alpha_or_space_hyphen_only(data=data_with_atleast_one_alphachar)
-        data_with_valid_email_format = self.get_fields_with_valid_email_format(data=data_with_names_containing_alpha_or_space_hyphen_only)
-        filtered_first_lastname_details = self.get_first_and_lastname_details_and_remove_email(data=data_with_valid_email_format)
-        self.log.info(msg=f'{len(filtered_first_lastname_details)} records passed filtering')
-        return filtered_first_lastname_details
+        data_with_only_first_lastname_email = self.get_data_with_only_first_lastname_email(
+            data=data_with_fields_less_than_257chars)
+        filter_blank_names_emails_records = self.get_first_last_name_email_notblank_combination(
+            data=data_with_only_first_lastname_email)
+        data_with_valid_email_format = self.get_fields_with_valid_email_format(data=filter_blank_names_emails_records)
+        data_with_only_first_lastname = self.get_first_and_lastname_details_and_remove_email(
+            data=data_with_valid_email_format)
+        data_with_names_having_atleast_one_alphachar = self.get_names_containing_atleast_one_alpha(
+            data=data_with_only_first_lastname)
+        data_with_names_having_alpha_or_space_hyphen_only = self.get_names_containing_alpha_or_space_hyphen_only(
+            data=data_with_names_having_atleast_one_alphachar)
+        first_last_name_details_after_fields_filtering = data_with_names_having_alpha_or_space_hyphen_only
+        self.log.info(msg=f'{len(first_last_name_details_after_fields_filtering)} records passed filtering')
+        return first_last_name_details_after_fields_filtering
 
 
 # Applies the Search criteria for finding related persons and returns related persons data
