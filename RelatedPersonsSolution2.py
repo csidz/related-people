@@ -135,6 +135,7 @@ class FilterFields:
         :return: list of items
         Each item is a person details with first_name, last_name, email where first_name and last_name
         contain atleast one alpha character
+        Example: it filters any first_name or last_name with only '--' or '  '
         """
         data_with_atleast_one_alpha = []
         for row in data:
@@ -176,6 +177,8 @@ class FilterFields:
         """
         Filters the person records consisting of invalid formatted emails
         Uses 'validate_email' library
+        Checks whole email address is in valid format or not using validate_email library
+        Checks Local part of email length is less than 65 chars
 
         :param data: list (received from function 'get_names_containing_alpha_or_space_hyphen_only')
         :return: list of items
@@ -216,13 +219,13 @@ class FilterFields:
         Each item is a list consisting of first_name, last_name only
         """
         first_1000_records = GetMax1000RecordsFromCSVFile().get_first_1000_records_max(count=1000)
-        data_with_fields_less_than_257chars = FilterFields().get_data_with_fields_length_less_than_257(data=first_1000_records)
-        data_with_only_first_lastname_email = FilterFields().get_data_with_only_first_lastname_email(data=data_with_fields_less_than_257chars)
-        filter_blank_names_emails_records = FilterFields().get_first_last_name_email_notblank_combination(data=data_with_only_first_lastname_email)
-        data_with_atleast_one_alphachar = FilterFields().get_names_containing_atleast_one_alpha(data=filter_blank_names_emails_records)
-        data_with_names_containing_alpha_or_space_hyphen_only = FilterFields().get_names_containing_alpha_or_space_hyphen_only(data=data_with_atleast_one_alphachar)
-        data_with_valid_email_format = FilterFields().get_fields_with_valid_email_format(data=data_with_names_containing_alpha_or_space_hyphen_only)
-        filtered_first_lastname_details = FilterFields().get_first_and_lastname_details_and_remove_email(data=data_with_valid_email_format)
+        data_with_fields_less_than_257chars = self.get_data_with_fields_length_less_than_257(data=first_1000_records)
+        data_with_only_first_lastname_email = self.get_data_with_only_first_lastname_email(data=data_with_fields_less_than_257chars)
+        filter_blank_names_emails_records = self.get_first_last_name_email_notblank_combination(data=data_with_only_first_lastname_email)
+        data_with_atleast_one_alphachar = self.get_names_containing_atleast_one_alpha(data=filter_blank_names_emails_records)
+        data_with_names_containing_alpha_or_space_hyphen_only = self.get_names_containing_alpha_or_space_hyphen_only(data=data_with_atleast_one_alphachar)
+        data_with_valid_email_format = self.get_fields_with_valid_email_format(data=data_with_names_containing_alpha_or_space_hyphen_only)
+        filtered_first_lastname_details = self.get_first_and_lastname_details_and_remove_email(data=data_with_valid_email_format)
         self.log.info(msg=f'{len(filtered_first_lastname_details)} records passed filtering')
         return filtered_first_lastname_details
 
@@ -244,7 +247,7 @@ class RelatedPersons:
         If the string contains a split char, it will be split based on split char otherwise not
         In either way it return string converted to list
         :param last_name: a string normally, ex: "William-Scott" or "William"
-        :param split_char: any char, in our project it hyphen
+        :param split_char: any char, in our project it is hyphen
         :return: list
         """
         if '-' in last_name:
@@ -257,6 +260,14 @@ class RelatedPersons:
             return last_name
 
     def filter_keys_with_empty_values(self, names: dict) -> dict:
+        """
+        It receives all the persons as keys and value as list of matching persons.
+        When a person does not have a matching then that value will be empty list.
+        This function filters those dictionary items having empty lists as the values
+
+        :param names: dictionary with a key as a person first_name, last_name and value as list of matching persons.
+        :return:
+        """
         filtered_names = {k: v for k, v in names.items() if v}
         self.log.info(msg=f'{len(filtered_names)} keys filtered out of {len(names)} keys have values')
         return filtered_names
@@ -327,8 +338,8 @@ class FormatAndWriteRelatedNamesToAFile:
                     except OSError:
                         self.log.error(msg="Error while writing to the Output text file")
             output_file.close()
-        except FileNotFoundError:
-            self.log.error(msg="The output txt file does not exist")
+        except IOError:
+            self.log.error(msg='Unable to access output txt file')
         self.log.info(msg="Check out the output file for Related Persons details")
 
 
