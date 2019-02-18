@@ -11,6 +11,7 @@ import re
 from validate_email import validate_email
 from utils.customLogger import custom_logger as cl
 import logging
+from toolz import functoolz
 
 
 # Reads data from a persons_raw_data.csv file
@@ -214,26 +215,22 @@ class FilterFields:
         """
         This function calls all the user validation functions above in an order and return persons details with
         last_name and first_name
+        Uses fancy functoolz.compose from toolz library
+
         :return:list of items
         Each item is a person details which have gone through all user validations as per requirements
         Each item is a list consisting of first_name, last_name only
         """
-        first_1000_records = GetMax1000RecordsFromCSVFile().get_first_1000_records_max(count=1000)
-        data_with_fields_less_than_257chars = self.get_data_with_fields_length_less_than_257(data=first_1000_records)
-        data_with_only_first_lastname_email = self.get_data_with_only_first_lastname_email(
-            data=data_with_fields_less_than_257chars)
-        filter_blank_names_emails_records = self.get_first_last_name_email_notblank_combination(
-            data=data_with_only_first_lastname_email)
-        data_with_valid_email_format = self.get_fields_with_valid_email_format(data=filter_blank_names_emails_records)
-        data_with_only_first_lastname = self.get_first_and_lastname_details_and_remove_email(
-            data=data_with_valid_email_format)
-        data_with_names_having_atleast_one_alphachar = self.get_names_containing_atleast_one_alpha(
-            data=data_with_only_first_lastname)
-        data_with_names_having_alpha_or_space_hyphen_only = self.get_names_containing_alpha_or_space_hyphen_only(
-            data=data_with_names_having_atleast_one_alphachar)
-        first_last_name_details_after_fields_filtering = data_with_names_having_alpha_or_space_hyphen_only
-        self.log.info(msg=f'{len(first_last_name_details_after_fields_filtering)} records passed filtering')
-        return first_last_name_details_after_fields_filtering
+        data = GetMax1000RecordsFromCSVFile().get_first_1000_records_max(count=1000)
+        name_details_after_fields_filtering = functoolz.compose(self.get_names_containing_alpha_or_space_hyphen_only,
+                                                                self.get_names_containing_atleast_one_alpha,
+                                                                self.get_first_and_lastname_details_and_remove_email,
+                                                                self.get_fields_with_valid_email_format,
+                                                                self.get_first_last_name_email_notblank_combination,
+                                                                self.get_data_with_only_first_lastname_email,
+                                                                self.get_data_with_fields_length_less_than_257)(data)
+        self.log.info(msg=f'{len(name_details_after_fields_filtering)} records passed filtering')
+        return name_details_after_fields_filtering
 
 
 # Applies the Search criteria for finding related persons and returns related persons data
