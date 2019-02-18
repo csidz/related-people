@@ -100,10 +100,7 @@ class FilterFields:
         """
         data_with_required_fields_only = []
         for row in data:
-            temp = []
-            temp.append(row[0])
-            temp.append(row[1])
-            temp.append(row[9])
+            temp = [row[0], row[1], row[9]]
             data_with_required_fields_only.append(temp)
         self.log.info(msg='Filtered all fields keeping first_name, last_name and email only')
         return data_with_required_fields_only
