@@ -15,7 +15,7 @@ from toolz import functoolz
 
 
 # Reads data from a persons_raw_data.csv file
-class GetMax1000RecordsFromCSVFile:
+class GetFirstNRecordsFromCSVFile:
     """
     Class to read Persons raw data from a csv file and return the output as a list
     """
@@ -43,7 +43,7 @@ class GetMax1000RecordsFromCSVFile:
         except IOError:
             self.log.error(msg='Unable to access input data file')
 
-    def get_first_1000_records_max(self, count: int) -> list:
+    def get_first_n_records(self, count: int) -> list:
         """
         Gets the first 'count' records or all records if less than 'count' from input file
 
@@ -218,7 +218,7 @@ class FilterFields:
         Each item is a person details which have gone through all user validations as per requirements
         Each item is a list consisting of first_name, last_name only
         """
-        data = GetMax1000RecordsFromCSVFile().get_first_1000_records_max(count=1000)
+        data = GetFirstNRecordsFromCSVFile().get_first_n_records(count=1000)
         name_details_after_fields_filtering = functoolz.compose(self.get_names_containing_alpha_or_space_hyphen_only,
                                                                 self.get_names_containing_atleast_one_alpha,
                                                                 self.get_first_and_lastname_details_and_remove_email,
