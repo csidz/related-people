@@ -231,7 +231,7 @@ class FilterFields:
 
 
 # Applies the Search criteria for finding related persons and returns related persons data
-class RelatedPersons:
+class GetRelatedPersons:
 
 
     """
@@ -328,7 +328,7 @@ class FormatAndWriteRelatedNamesToAFile:
         Writes the string received from Generator to 'related_persons_info.text' file
         :return: text file
         """
-        related_names_data = RelatedPersons().get_related_names_data()
+        related_names_data = GetRelatedPersons().get_related_names_data()
         matches = FormatAndWriteRelatedNamesToAFile.build_format_for_related_names(related_names_data)
         try:
             with open('related_persons_info_solution2.txt', 'w') as output_file:
