@@ -4,6 +4,11 @@ import inspect
 
 def custom_logger(log_level=logging.DEBUG):
     # step1: Create Logger object and set level
+    '''
+    fileName = inspect.stack()[1][1]
+    line = inspect.stack()[1][2]
+    method = inspect.stack()[1][3]
+    '''
     logger_name = inspect.stack()[1][3]
     logger = logging.getLogger(name=logger_name)  # Log record object
     logger.setLevel(logging.DEBUG)
